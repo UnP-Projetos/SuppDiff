@@ -18,6 +18,7 @@ public class MainFrame extends JFrame {
         UserListScreen userListScreen = new UserListScreen(cardLayout, mainPanel);
         CreateScreen userRegistrationScreen = new CreateScreen(cardLayout, mainPanel);
         HomeScreen homeScreen = new HomeScreen(cardLayout, mainPanel);
+        // UpdateScreen updateScreen = new UpdateScreen(cardLayout, mainPanel);
         ChamadoListScreen chamadoListScreen = new ChamadoListScreen(cardLayout, mainPanel);
 
         mainPanel.add(loginScreen, "loginScreen");
@@ -33,10 +34,7 @@ public class MainFrame extends JFrame {
     }
 
     public static void main(String[] args) {
-        SwingUtilities.//<editor-fold defaultstate="collapsed" desc="comment">
-                invokeLater
-//</editor-fold>
-(new Runnable() {
+        SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
                 new MainFrame().setVisible(true);
