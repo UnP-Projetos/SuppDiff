@@ -18,6 +18,7 @@ public class MainFrame extends JFrame {
         UserListScreen userListScreen = new UserListScreen(cardLayout, mainPanel);
         CreateScreen userRegistrationScreen = new CreateScreen(cardLayout, mainPanel);
         HomeScreen homeScreen = new HomeScreen(cardLayout, mainPanel);
+        // UpdateScreen updateScreen = new UpdateScreen(cardLayout, mainPanel);
 
         mainPanel.add(loginScreen, "loginScreen");
         mainPanel.add(userListScreen, "userListScreen");

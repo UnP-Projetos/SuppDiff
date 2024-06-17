@@ -11,13 +11,13 @@ import java.awt.event.ActionListener;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 
-public class CreateScreen extends BasePanel {
+public class UpdateScreen extends BasePanel {
     private JTextField nameField;
     private JTextField emailField;
     private JTextField cpfField;
     private JTextField phoneField;
     private JPasswordField passwordField;
-    private JTextField birdDataField;
+    private JTextField bithdDataField;
     private JButton saveButton;
     private JButton cancelButton;
     private JComboBox<String> typeUserField;
@@ -25,7 +25,7 @@ public class CreateScreen extends BasePanel {
     private CardLayout cardLayout;
     private JPanel mainPanel;
 
-    public CreateScreen(CardLayout _cardLayout, JPanel _mainPanel) {
+    public UpdateScreen(Person person, CardLayout _cardLayout, JPanel _mainPanel) {
         super("Cadastro de Usuário", _cardLayout, _mainPanel);
         this.cardLayout = _cardLayout;
         this.mainPanel = _mainPanel;
@@ -50,6 +50,7 @@ public class CreateScreen extends BasePanel {
         gbc.gridx = 1;
         nameField = new JTextField(20);
         nameField.setFont(new Font("Arial", Font.PLAIN, 16));
+        nameField.setText(person.getName());
         inputPanel.add(nameField, gbc);
 
         // E-mail
@@ -63,6 +64,7 @@ public class CreateScreen extends BasePanel {
         gbc.gridx = 1;
         emailField = new JTextField(20);
         emailField.setFont(new Font("Arial", Font.PLAIN, 16));
+        emailField.setText(person.getEmail());
         inputPanel.add(emailField, gbc);
 
         // CPF
@@ -76,6 +78,7 @@ public class CreateScreen extends BasePanel {
         gbc.gridx = 1;
         cpfField = new JTextField(20);
         cpfField.setFont(new Font("Arial", Font.PLAIN, 16));
+        cpfField.setText(person.getCpf());
         inputPanel.add(cpfField, gbc);
 
         // Telefone
@@ -89,25 +92,27 @@ public class CreateScreen extends BasePanel {
         gbc.gridx = 1;
         phoneField = new JTextField(20);
         phoneField.setFont(new Font("Arial", Font.PLAIN, 16));
+        phoneField.setText(person.getPhone());
         inputPanel.add(phoneField, gbc);
         
         // Bird Date
         gbc.gridx = 0;
         gbc.gridy = 4;
-        JLabel birdDateLabel = new JLabel("Data nascimento:");
+        JLabel birdDateLabel = new JLabel("Tipo User:");
         birdDateLabel.setForeground(Color.WHITE);
         birdDateLabel.setFont(new Font("Arial", Font.BOLD, 16));
         inputPanel.add(birdDateLabel, gbc);
 
         gbc.gridx = 1;
-        birdDataField = new JTextField(20);
-        birdDataField.setFont(new Font("Arial", Font.PLAIN, 16));
-        inputPanel.add(birdDataField, gbc);
+        bithdDataField = new JTextField(20);
+        bithdDataField.setFont(new Font("Arial", Font.PLAIN, 16));
+        bithdDataField.setText(person.getBirthDate().toString());
+        inputPanel.add(bithdDataField, gbc);
         
         // Password
         gbc.gridx = 0;
         gbc.gridy = 5;
-        JLabel passwordLabel = new JLabel("Senha:");
+        JLabel passwordLabel = new JLabel("Tipo User:");
         passwordLabel.setForeground(Color.WHITE);
         passwordLabel.setFont(new Font("Arial", Font.BOLD, 16));
         inputPanel.add(passwordLabel, gbc);
@@ -160,7 +165,7 @@ public class CreateScreen extends BasePanel {
                 String email = emailField.getText();
                 String cpf = cpfField.getText();
                 String phone = phoneField.getText();
-                String birdData = birdDataField.getText();
+                String birdData = bithdDataField.getText();
                 char[] password = passwordField.getPassword();
                 Date date = null;
 
@@ -174,12 +179,10 @@ public class CreateScreen extends BasePanel {
                     String formattedDate = dateFormat.format(date);
                     System.out.println("Data formatada de volta para string: " + formattedDate);
 
-                } catch (Exception ex) {
-                }
-
+                } catch (Exception ex) {}
 
                 if (name.isEmpty() || email.isEmpty() || cpf.isEmpty() || phone.isEmpty() || birdData.isEmpty() || String.valueOf(password).isEmpty()) {
-                    JOptionPane.showMessageDialog(CreateScreen.this, "Por favor, preencha todos os campos", "Erro", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(UpdateScreen.this, "Por favor, preencha todos os campos", "Erro", JOptionPane.ERROR_MESSAGE);
                 } else {
                     UserService userService = new UserService();
                     Person person = new Person();
@@ -192,8 +195,7 @@ public class CreateScreen extends BasePanel {
                     userService.save(person);
 
                     // Retornar para a tela de lista de usuários
-                    cardLayout.show(mainPanel, "userListScreen");
-                    ((UserListScreen) mainPanel.getComponent(1)).updateTable(); // Atualiza a tabela de usuários
+                    cardLayout.show(mainPanel, "homeScreen");
                 }
             }
         });
