@@ -62,6 +62,12 @@ public class SideMenu extends JPanel {
         ticketsButton.setForeground(Color.WHITE);
         ticketsButton.setBackground(new Color(48, 77, 110));
         ticketsButton.setFocusPainted(false);
+        ticketsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cardLayout.show(mainPanel, "chamadoListScreen");
+            }
+        });
         gbc.gridy = 3;
         add(ticketsButton, gbc);
 

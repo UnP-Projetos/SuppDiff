@@ -4,8 +4,8 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
-import com.suppdiff.domain.entities.Person;
-import com.suppdiff.domain.services.UserService;
+import com.suppdiff.domain.entities.Ticket;
+import com.suppdiff.domain.services.TicketService;
 import com.suppdiff.ui.components.ChamadoButtonEditor;
 import com.suppdiff.ui.components.ButtonRenderer;
 
@@ -20,13 +20,13 @@ public class ChamadoListScreen extends BasePanel {
     private JButton newChamadoButton;
     private JPanel mainChamadoPanel;
     private CardLayout cardLayout;
-    private UserService userService;
+    private TicketService ticketService;
 
     public ChamadoListScreen(CardLayout _cardLayout, JPanel _mainPanel) {
         super("Lista de Chamados", _cardLayout, _mainPanel);
         this.cardLayout = _cardLayout;
         this.mainChamadoPanel = _mainPanel;
-        this.userService = new UserService();
+        this.ticketService = new TicketService();
 
         Vector<String> columnNames = new Vector<>();
         columnNames.add("#");
@@ -38,7 +38,7 @@ public class ChamadoListScreen extends BasePanel {
         DefaultTableModel model = new DefaultTableModel(columnNames, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return column == 5 || column == 6; // Permite edição apenas nas colunas de editar e excluir
+                return true; // Permite edição apenas nas colunas de editar e excluir
             }
         };
 
@@ -49,11 +49,11 @@ public class ChamadoListScreen extends BasePanel {
         chamadoTable.setFillsViewportHeight(true);
         chamadoTable.getTableHeader().setFont(new Font("Arial", Font.BOLD, 16));
 
-        TableColumn editColumn = chamadoTable.getColumnModel().getColumn(5);
+        TableColumn editColumn = chamadoTable.getColumnModel().getColumn(3);
         editColumn.setCellRenderer(new ButtonRenderer());
         editColumn.setCellEditor(new ChamadoButtonEditor(new JCheckBox(), this));
 
-        TableColumn deleteColumn = chamadoTable.getColumnModel().getColumn(6);
+        TableColumn deleteColumn = chamadoTable.getColumnModel().getColumn(4);
         deleteColumn.setCellRenderer(new ButtonRenderer());
         deleteColumn.setCellEditor(new ChamadoButtonEditor(new JCheckBox(), this));
 
@@ -94,18 +94,17 @@ public class ChamadoListScreen extends BasePanel {
     }
 
     public void updateTable() {
-        List<Person> persons = userService.getAll();
+        List<Ticket> tickets = ticketService.getAll();
 
         DefaultTableModel model = (DefaultTableModel) chamadoTable.getModel();
         model.setRowCount(0);
 
-        for (Person person : persons) {
+        for (Ticket ticket : tickets) {
             Vector<Object> row = new Vector<>();
-            row.add(person.getId());
-            row.add(person.getName());
-            row.add(person.getEmail());
-            row.add(person.getCpf());
-            row.add(person.getPhone());
+            row.add(ticket.getId());
+            row.add(ticket.getDescription());
+            row.add(ticket.getStatus());
+            row.add(ticket.getClient().getName());
             row.add("Editar");
             row.add("Excluir");
             model.addRow(row);
@@ -117,7 +116,7 @@ public class ChamadoListScreen extends BasePanel {
         int selectedRow = chamadoTable.getSelectedRow();
         if (selectedRow != -1) {
             Object id = chamadoTable.getValueAt(selectedRow, 0);
-            Person person = userService.getById((int) id);
+            Ticket person = ticketService.getById((int) id);
             if (person != null) {
                 // Aqui você pode implementar a lógica de edição, por exemplo, mostrar uma tela de edição
                 // Exemplo: new EditUserDialog(person, userRepository, this).setVisible(true);
@@ -135,7 +134,7 @@ public class ChamadoListScreen extends BasePanel {
             
             if (response == JOptionPane.YES_OPTION) {
                 try {
-                    userService.delete((int) id);
+                    ticketService.delete((int) id);
                     // updateTable();
                 } catch (Exception ex) {
                     ex.printStackTrace();
