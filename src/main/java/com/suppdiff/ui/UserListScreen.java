@@ -120,9 +120,10 @@ public class UserListScreen extends BasePanel {
             Object id = userTable.getValueAt(selectedRow, 0);
             Person person = userService.getById((int) id);
             if (person != null) {
-                // Aqui você pode implementar a lógica de edição, por exemplo, mostrar uma tela de edição
-                // Exemplo: new EditUserDialog(person, userRepository, this).setVisible(true);
-                System.out.println("Editar pessoa com ID: " + id);
+                UpdateScreen updateScreen = new UpdateScreen(cardLayout, mainPanel);
+                updateScreen.setPersonData(person);
+                mainPanel.add(updateScreen, "updateScreen");
+                cardLayout.show(mainPanel, "updateScreen");
             }
         }
     }

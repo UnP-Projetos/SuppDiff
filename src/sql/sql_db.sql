@@ -45,39 +45,7 @@ CREATE TABLE Ticket (
     FOREIGN KEY (employee_id) REFERENCES Employee(id)
 );
 
--- Table for TicketSystem (SistemaDeChamados)
-CREATE TABLE TicketSystem (
-    id INT AUTO_INCREMENT PRIMARY KEY
-);
-
--- Many-to-Many relationship between TicketSystem and Client
-CREATE TABLE TicketSystem_Client (
-    ticket_system_id INT,
-    client_id INT,
-    PRIMARY KEY (ticket_system_id, client_id),
-    FOREIGN KEY (ticket_system_id) REFERENCES TicketSystem(id),
-    FOREIGN KEY (client_id) REFERENCES Client(id)
-);
-
--- Many-to-Many relationship between TicketSystem and Employee
-CREATE TABLE TicketSystem_Employee (
-    ticket_system_id INT,
-    employee_id INT,
-    PRIMARY KEY (ticket_system_id, employee_id),
-    FOREIGN KEY (ticket_system_id) REFERENCES TicketSystem(id),
-    FOREIGN KEY (employee_id) REFERENCES Employee(id)
-);
-
--- Many-to-Many relationship between TicketSystem and Ticket
-CREATE TABLE TicketSystem_Ticket (
-    ticket_system_id INT,
-    ticket_id INT,
-    PRIMARY KEY (ticket_system_id, ticket_id),
-    FOREIGN KEY (ticket_system_id) REFERENCES TicketSystem(id),
-    FOREIGN KEY (ticket_id) REFERENCES Ticket(id)
-);
-
 INSERT INTO Person (name, email, cpf, phone, password, birth_date)
-VALUES ('admin', 'admin@admin.com', '00000000000', '123456789', 'admin', '1990-01-01');
+VALUES ('admin', 'admin', '00000000000', '123456789', 'admin', '1990-01-01');
 INSERT INTO Administrator (id)
 VALUES (1);

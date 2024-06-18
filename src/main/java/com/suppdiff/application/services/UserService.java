@@ -52,7 +52,7 @@ public class UserService {
     }
 
     public void delete(UserDto userDto) {
-        Person person = personService.getByEmail(userDto.getEmail());
+        Person person = personService.getById(userDto.getId());
         int personId = person.getId();
         switch (userDto.getTypeUser()) {
             case ADMIN:

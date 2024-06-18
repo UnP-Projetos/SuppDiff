@@ -12,7 +12,7 @@ import java.awt.event.ActionListener;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 
-public class CreateScreen extends BasePanel {
+public class CreateUserScreen extends BasePanel {
     private JTextField nameField;
     private JTextField emailField;
     private JTextField cpfField;
@@ -26,7 +26,7 @@ public class CreateScreen extends BasePanel {
     private CardLayout cardLayout;
     private JPanel mainPanel;
 
-    public CreateScreen(CardLayout _cardLayout, JPanel _mainPanel) {
+    public CreateUserScreen(CardLayout _cardLayout, JPanel _mainPanel) {
         super("Cadastro de Usuário", _cardLayout, _mainPanel);
         this.cardLayout = _cardLayout;
         this.mainPanel = _mainPanel;
@@ -178,7 +178,7 @@ public class CreateScreen extends BasePanel {
                 } catch (Exception ex) {}
 
                 if (name.isEmpty() || email.isEmpty() || cpf.isEmpty() || phone.isEmpty() || birdData.isEmpty() || String.valueOf(password).isEmpty() || typeUser == TypeUser.UNKNOWN) {
-                    JOptionPane.showMessageDialog(CreateScreen.this, "Por favor, preencha todos os campos", "Erro", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(CreateUserScreen.this, "Por favor, preencha todos os campos", "Erro", JOptionPane.ERROR_MESSAGE);
                 } else {
                     UserService userService = new UserService();
                     UserDto userDto = new UserDto(name, email, cpf, phone, (Date) date, String.valueOf(password), typeUser);
