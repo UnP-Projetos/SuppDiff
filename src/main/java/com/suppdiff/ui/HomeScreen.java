@@ -9,10 +9,19 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import com.suppdiff.application.services.UserSession;
+import com.suppdiff.ui.components.SideMenu;
+
 public class HomeScreen extends BasePanel {
     private JLabel imageLabel;
+    private JPanel mainPanel;
+    private CardLayout cardLayout;
+
     public HomeScreen(CardLayout _cardLayout, JPanel _mainPanel) {
         super("Home", _cardLayout, _mainPanel);
+        this.mainPanel = _mainPanel;
+        this.cardLayout = _cardLayout;
+        
 
         imageLabel = new JLabel();
         imageLabel.setLayout(new BorderLayout());
@@ -49,6 +58,21 @@ public class HomeScreen extends BasePanel {
             }
         });
     }
+
+    public void addSideMenu() {
+        removeAll();
+        
+        setLayout(new BorderLayout());
+        
+        // Adiciona o menu lateral
+        SideMenu sideMenu = new SideMenu(cardLayout, mainPanel, UserSession.getInstance().getUserType());
+        add(sideMenu, BorderLayout.WEST);
+        
+        // Revalida e repinta o painel para garantir que as alterações sejam exibidas
+        revalidate();
+        repaint();
+    }
+
     
     private void resizeImage() {
         int width = getWidth();

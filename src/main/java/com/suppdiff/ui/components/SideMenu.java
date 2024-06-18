@@ -1,6 +1,9 @@
 package com.suppdiff.ui.components;
 
 import javax.swing.*;
+
+import com.suppdiff.application.enums.TypeUser;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,7 +12,7 @@ public class SideMenu extends JPanel {
     private CardLayout cardLayout;
     private JPanel mainPanel;
     
-    public SideMenu(CardLayout _cardLayout, JPanel _mainPanel) {
+    public SideMenu(CardLayout _cardLayout, JPanel _mainPanel, TypeUser typeUser) {
         this.cardLayout = _cardLayout;
         this.mainPanel = _mainPanel;
 
@@ -42,38 +45,54 @@ public class SideMenu extends JPanel {
         gbc.gridy = 1;
         gbc.weighty = 0.1;
         add(Box.createVerticalStrut(20), gbc);
-
-        JButton usersButton = new JButton("Usuários");
-        usersButton.setForeground(Color.WHITE);
-        usersButton.setBackground(new Color(48, 77, 110));
-        usersButton.setFocusPainted(false);
-        usersButton.addActionListener(new ActionListener() {
+        
+        JButton homeButton = new JButton("Home");
+        homeButton.setForeground(Color.WHITE);
+        homeButton.setBackground(new Color(48, 77, 110));
+        homeButton.setFocusPainted(false);
+        homeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                cardLayout.show(mainPanel, "userListScreen");
+                cardLayout.show(mainPanel, "homeScreen");
             }
         });
         gbc.gridy = 2;
         gbc.weighty = 0;
-        add(usersButton, gbc);
+        add(homeButton, gbc);
+        System.out.println(typeUser);
+        if (typeUser == TypeUser.ADMIN) {
+            JButton usersButton = new JButton("Usuários");
+            usersButton.setForeground(Color.WHITE);
+            usersButton.setBackground(new Color(48, 77, 110));
+            usersButton.setFocusPainted(false);
+            usersButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    cardLayout.show(mainPanel, "userListScreen");
+                }
+            });
+            gbc.gridy = 3;
+            gbc.weighty = 0;
+            add(usersButton, gbc);
+        }
+        
+        if (typeUser != TypeUser.UNKNOWN && typeUser != null) {
+            JButton ticketsButton = new JButton("Chamados");
+            ticketsButton.setForeground(Color.WHITE);
+            ticketsButton.setBackground(new Color(48, 77, 110));
+            ticketsButton.setFocusPainted(false);
+            ticketsButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    cardLayout.show(mainPanel, "chamadoListScreen");
+                }
+            });
+            gbc.gridy = 4;
+            add(ticketsButton, gbc);
+        }
 
-        // Criação e configuração do botão de Chamados
-        JButton ticketsButton = new JButton("Chamados");
-        ticketsButton.setForeground(Color.WHITE);
-        ticketsButton.setBackground(new Color(48, 77, 110));
-        ticketsButton.setFocusPainted(false);
-        ticketsButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                cardLayout.show(mainPanel, "chamadoListScreen");
-            }
-        });
-        gbc.gridy = 3;
-        add(ticketsButton, gbc);
-
-        // Preencher o restante do espaço para manter os botões no final
         gbc.gridy = 4;
-        gbc.weighty = 1; // Peso máximo para empurrar tudo para o topo
+        gbc.weighty = 1;
         add(Box.createVerticalGlue(), gbc);
     }
 }

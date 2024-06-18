@@ -1,4 +1,4 @@
-package com.suppdiff.domain.services;
+package com.suppdiff.application.services;
 
 import java.util.List;
 

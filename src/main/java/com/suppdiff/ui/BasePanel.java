@@ -2,8 +2,6 @@ package com.suppdiff.ui;
 
 import javax.swing.*;
 
-import com.suppdiff.ui.components.SideMenu;
-
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -13,29 +11,20 @@ public class BasePanel extends JPanel {
     protected JLabel titleLabel;
     protected JPanel contentPanel;
     protected JPanel centerPanel;
-    
-    private CardLayout cardLayout;
-    private JPanel mainPanel;
 
     public BasePanel(String title, CardLayout _cardLayout, JPanel _mainPanel) {
-        this.cardLayout = _cardLayout;
-        this.mainPanel = _mainPanel;
         setLayout(new BorderLayout());
 
-        // Configuração do background
         backgroundLabel = new JLabel();
         backgroundLabel.setLayout(new BorderLayout());
         add(backgroundLabel, BorderLayout.CENTER);
 
-        // Adiciona o menu lateral
-        SideMenu sideMenu = new SideMenu(cardLayout, mainPanel);
-        add(sideMenu, BorderLayout.WEST);
+        // SideMenu sideMenu = new SideMenu(cardLayout, mainPanel, UserSession.getInstance().getUserType());
+        // add(sideMenu, BorderLayout.WEST);
 
-        // Painel principal
         contentPanel = new JPanel(new BorderLayout());
-        contentPanel.setOpaque(false); // Torna o painel transparente
+        contentPanel.setOpaque(false);
 
-        // Header com título
         JPanel titlePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         titlePanel.setBackground(new Color(0, 0, 0, 100));
         titleLabel = new JLabel(title);
@@ -44,7 +33,6 @@ public class BasePanel extends JPanel {
         titlePanel.add(titleLabel);
         contentPanel.add(titlePanel, BorderLayout.NORTH);
 
-        // Painel central com a cor de fundo #1A6497 e margens
         JPanel outerPanel = new JPanel();
         outerPanel.setLayout(new BoxLayout(outerPanel, BoxLayout.Y_AXIS));
         outerPanel.setOpaque(false);

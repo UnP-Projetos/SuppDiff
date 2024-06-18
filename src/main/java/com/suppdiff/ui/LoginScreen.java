@@ -4,7 +4,11 @@ import javax.swing.*;
 import java.awt.*;
 import javax.swing.border.EmptyBorder;
 
-import com.suppdiff.domain.services.Authentication;
+import com.suppdiff.application.enums.TypeUser;
+import com.suppdiff.application.services.Authentication;
+import com.suppdiff.application.services.PersonService;
+import com.suppdiff.application.services.UserSession;
+import com.suppdiff.domain.entities.Person;
 
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -15,27 +19,20 @@ public class LoginScreen extends JPanel {
     private JLabel backgroundLabel;
     private JTextField emailField;
     private JPasswordField passwordField;
-    private CardLayout cardLayout;
-    private JPanel mainPanel;
     private Authentication authentication = new Authentication();
+    private PersonService userService = new PersonService();
 
     public LoginScreen(CardLayout _cardLayout, JPanel _mainPanel) {
-        this.cardLayout = _cardLayout;
-        this.mainPanel = _mainPanel;
-
-        // Configuração do JPanel
         setLayout(new GridBagLayout());
         backgroundLabel = new JLabel();
         backgroundLabel.setLayout(new GridBagLayout());
         add(backgroundLabel);
 
-        // Painel de conteúdo
         JPanel contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(20, 20, 20, 20));
         contentPane.setBackground(new Color(0, 0, 0, 120));
         contentPane.setLayout(new GridBagLayout());
 
-        // GridBagConstraints para layout
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -91,19 +88,24 @@ public class LoginScreen extends JPanel {
                 // Verificação simples de login
                 final String email = emailField.getText();
                 char[] password = passwordField.getPassword();
-                
                 if (authentication.Login(email, String.valueOf(password))) {
-                    cardLayout.show(mainPanel, "homeScreen");
+                    Person user = userService.getByEmail(email);
+                    TypeUser userType = userService.getUserTypeById(user.getId());
+                    UserSession.getInstance().setLoggedInUser(user, userType);
+                    
+                    MainPanel mainPanel = (MainPanel) SwingUtilities.getAncestorOfClass(MainPanel.class, LoginScreen.this);
+                    if (mainPanel != null) {
+                        mainPanel.showSideMenu();
+                        mainPanel.getCardLayout().show(mainPanel.getContentPanel(), "homeScreen");
+                    }
                 } else {
                     JOptionPane.showMessageDialog(LoginScreen.this, "E-mail ou senha incorretos", "Erro", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
 
-        // Adicionando o painel de conteúdo ao painel de fundo
         backgroundLabel.add(contentPane);
 
-        // Listener para redimensionar a imagem ao redimensionar a janela
         addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {

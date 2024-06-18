@@ -3,8 +3,8 @@ package com.suppdiff.ui;
 import javax.swing.*;
 import java.awt.*;
 
+import com.suppdiff.application.services.PersonService;
 import com.suppdiff.domain.entities.Person;
-import com.suppdiff.domain.services.UserService;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -184,7 +184,7 @@ public class UpdateScreen extends BasePanel {
                 if (name.isEmpty() || email.isEmpty() || cpf.isEmpty() || phone.isEmpty() || birdData.isEmpty() || String.valueOf(password).isEmpty()) {
                     JOptionPane.showMessageDialog(UpdateScreen.this, "Por favor, preencha todos os campos", "Erro", JOptionPane.ERROR_MESSAGE);
                 } else {
-                    UserService userService = new UserService();
+                    PersonService userService = new PersonService();
                     Person person = new Person();
                     person.setName(name);
                     person.setEmail(email);
