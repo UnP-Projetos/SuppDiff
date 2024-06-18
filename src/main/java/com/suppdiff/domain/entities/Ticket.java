@@ -2,6 +2,7 @@ package com.suppdiff.domain.entities;
 
 public class Ticket {
     private int id;
+    private String title;
     private String description;
     private String status;
     private Client client;
@@ -36,5 +37,12 @@ public class Ticket {
     }
     public void setEmployee(Employee employee) {
         this.employee = employee;
+    }
+    
+    public String getTitle() {
+        return title;
+    }
+    public void setTitle(String title) {
+        this.title = title;
     }
 }
