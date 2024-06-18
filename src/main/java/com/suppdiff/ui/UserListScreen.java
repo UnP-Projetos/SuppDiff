@@ -84,7 +84,7 @@ public class UserListScreen extends BasePanel {
         newUserButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                cardLayout.show(mainPanel, "createEmployeeScreen");
+                cardLayout.show(mainPanel, "createScreen");
             }
         });
 

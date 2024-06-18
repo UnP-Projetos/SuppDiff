@@ -13,12 +13,13 @@ import com.suppdiff.infrastructure.config.DatabaseConfig;
 
 public class TicketRepositoryImpl {
     public void save(Ticket ticket) {
-        String sql = "INSERT INTO Ticket (description, status, client_id) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO Ticket (title, description, status, client_id) VALUES (?, ?, ?, ?)";
         try (Connection connection = DatabaseConfig.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, ticket.getDescription());
-            statement.setString(2, ticket.getStatus());
-            statement.setInt(3, ticket.getClient().getId());
+            statement.setString(1, ticket.getTitle());
+            statement.setString(2, ticket.getDescription());
+            statement.setString(3, ticket.getStatus());
+            statement.setInt(4, ticket.getClient().getId());
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -53,13 +54,14 @@ public class TicketRepositoryImpl {
 
     public List<Ticket> getAll() {
         List<Ticket> tickets = new ArrayList<>();
-        String sql = "SELECT t.id, t.description, t.status, p.name, p.email, p.cpf, p.phone FROM Ticket t inner join Person p where p.id = t.client_id";
+        String sql = "SELECT t.id, t.title, t.description, t.status, p.name, p.email, p.cpf, p.phone FROM Ticket t inner join Person p where p.id = t.client_id";
         try (Connection connection = DatabaseConfig.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 Ticket ticket = new Ticket();
                 ticket.setId(resultSet.getInt("id"));
+                ticket.setTitle(resultSet.getString("title"));
                 ticket.setDescription(resultSet.getString("description"));
                 ticket.setStatus(resultSet.getString("status"));
                 Client client = new Client();
@@ -77,14 +79,15 @@ public class TicketRepositoryImpl {
     }
 
     public void update(Ticket ticket) {
-        String sql = "UPDATE Ticket SET description = ?, status = ?, client_id = ?, employee = ? WHERE id = ?";
+        String sql = "UPDATE Ticket SET title = ?, description = ?, status = ?, client_id = ?, employee = ? WHERE id = ?";
         try (Connection connection = DatabaseConfig.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, ticket.getDescription());
-            statement.setString(2, ticket.getStatus());
-            statement.setInt(3, ticket.getClient().getId());
-            statement.setInt(4, ticket.getEmployee().getId());
-            statement.setInt(5, ticket.getId());
+            statement.setString(1, ticket.getTitle());
+            statement.setString(2, ticket.getDescription());
+            statement.setString(3, ticket.getStatus());
+            statement.setInt(4, ticket.getClient().getId());
+            statement.setInt(5, ticket.getEmployee().getId());
+            statement.setInt(6, ticket.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
