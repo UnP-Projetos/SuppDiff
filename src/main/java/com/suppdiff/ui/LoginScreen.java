@@ -3,6 +3,9 @@ package com.suppdiff.ui;
 import javax.swing.*;
 import java.awt.*;
 import javax.swing.border.EmptyBorder;
+
+import com.suppdiff.domain.services.Authentication;
+
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ActionEvent;
@@ -14,6 +17,7 @@ public class LoginScreen extends JPanel {
     private JPasswordField passwordField;
     private CardLayout cardLayout;
     private JPanel mainPanel;
+    private Authentication authentication = new Authentication();
 
     public LoginScreen(CardLayout _cardLayout, JPanel _mainPanel) {
         this.cardLayout = _cardLayout;
@@ -88,7 +92,7 @@ public class LoginScreen extends JPanel {
                 final String email = emailField.getText();
                 char[] password = passwordField.getPassword();
                 
-                if (email.equals("") && String.valueOf(password).equals("")) {
+                if (authentication.Login(email, String.valueOf(password))) {
                     cardLayout.show(mainPanel, "homeScreen");
                 } else {
                     JOptionPane.showMessageDialog(LoginScreen.this, "E-mail ou senha incorretos", "Erro", JOptionPane.ERROR_MESSAGE);

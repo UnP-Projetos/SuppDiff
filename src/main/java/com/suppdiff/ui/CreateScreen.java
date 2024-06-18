@@ -193,7 +193,7 @@ public class CreateScreen extends BasePanel {
 
                     // Retornar para a tela de lista de usuários
                     cardLayout.show(mainPanel, "userListScreen");
-                    ((UserListScreen) mainPanel.getComponent(1)).updateTable(); // Atualiza a tabela de usuários
+                    ((UserListScreen) mainPanel.getComponent(2)).updateTable();
                 }
             }
         });

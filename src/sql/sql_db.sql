@@ -1,6 +1,6 @@
-create database suppdiffdb;
+create database suppdiff;
 
-use suppdiffdb ;
+use suppdiff;
 
 -- Table for Person
 CREATE TABLE Person (
@@ -13,6 +13,9 @@ CREATE TABLE Person (
     birth_date DATE,
     CONSTRAINT UC_Person UNIQUE (email, cpf)
 );
+
+INSERT INTO Person (name, email, cpf, phone, password, birth_date)
+VALUES ('admin', 'admin@admin.com', '00000000000', '123456789', 'admin', '1990-01-01');
 
 -- Table for Client
 CREATE TABLE Client (
@@ -35,6 +38,7 @@ CREATE TABLE Administrator (
 -- Table for Ticket (Chamado)
 CREATE TABLE Ticket (
     id INT AUTO_INCREMENT PRIMARY KEY,
+    title varchar(100) NOT NULL,
     description TEXT NOT NULL,
     status VARCHAR(50) NOT NULL,
     client_id INT,

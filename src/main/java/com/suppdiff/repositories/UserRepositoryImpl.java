@@ -52,6 +52,29 @@ public class UserRepositoryImpl {
         return null;
     }
 
+    public Person getByEmail(String email) {
+        String sql = "SELECT * FROM Person WHERE email = ?";
+        try (Connection connection = DatabaseConfig.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, email);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                Person person = new Person();
+                person.setId(resultSet.getInt("id"));
+                person.setName(resultSet.getString("name"));
+                person.setEmail(resultSet.getString("email"));
+                person.setCpf(resultSet.getString("cpf"));
+                person.setPhone(resultSet.getString("phone"));
+                person.setPassword(resultSet.getString("password"));
+                person.setBirthDate(resultSet.getDate("birth_date"));
+                return person;
+            }
+        } catch (SQLException e) {
+            return null;
+        }
+        return null;
+    }
+
     public List<Person> getAll() {
         List<Person> people = new ArrayList<>();
         String sql = "SELECT * FROM Person";

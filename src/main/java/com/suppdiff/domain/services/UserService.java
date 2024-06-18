@@ -8,10 +8,6 @@ import com.suppdiff.repositories.UserRepositoryImpl;
 public class UserService {
     private UserRepositoryImpl userRepository = new UserRepositoryImpl();
 
-    // public UserService(UserRepository userRepository) {
-    //     this.userRepository = userRepository;
-    // }
-
     public void save(Person person) {
         userRepository.save(person);
     }
@@ -30,5 +26,9 @@ public class UserService {
 
     public void delete(int id) {
         userRepository.delete(id);
+    }
+
+    public Person getByEmail(String email) {
+        return userRepository.getByEmail(email);
     }
 }
