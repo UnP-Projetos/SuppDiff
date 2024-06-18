@@ -18,6 +18,7 @@ public class MainFrame extends JFrame {
         LoginScreen loginScreen = new LoginScreen(cardLayout, mainPanel);
         UserListScreen userListScreen = new UserListScreen(cardLayout, mainPanel);
         CreateScreen userRegistrationScreen = new CreateScreen(cardLayout, mainPanel);
+        CreateChamadoScreen createChamadoScreen = new CreateChamadoScreen(cardLayout, mainPanel);
         // UpdateScreen updateScreen = new UpdateScreen(cardLayout, mainPanel);
         ChamadoListScreen chamadoListScreen = new ChamadoListScreen(cardLayout, mainPanel);
 
@@ -26,6 +27,7 @@ public class MainFrame extends JFrame {
         mainPanel.add(userListScreen, "userListScreen");
         mainPanel.add(userRegistrationScreen, "createScreen");
         mainPanel.add(chamadoListScreen, "chamadoListScreen");
+        mainPanel.add(createChamadoScreen, "createChamadoScreen");
 
         add(mainPanel);
 

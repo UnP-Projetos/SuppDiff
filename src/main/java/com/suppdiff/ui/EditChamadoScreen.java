@@ -24,17 +24,18 @@ import javax.swing.JTextField;
 import com.suppdiff.domain.entities.Ticket;
 import com.suppdiff.domain.services.TicketService;
 
-public class CreateChamadoScreen extends BasePanel {
+public class EditChamadoScreen extends BasePanel {
     private JTextField titleField;
+    private JTextField clientField;
     private JTextArea descriptionField;
-    private JButton saveButton;
+    private JButton sendButton;
     private JButton cancelButton;
 
     private CardLayout cardLayout;
     private JPanel mainPanel;
 
-    public CreateChamadoScreen(CardLayout _cardLayout, JPanel _mainPanel) {
-        super("Novo Chamado", _cardLayout, _mainPanel);
+    public EditChamadoScreen(CardLayout _cardLayout, JPanel _mainPanel) {
+        super("Responder Chamado", _cardLayout, _mainPanel);
         this.cardLayout = _cardLayout;
         this.mainPanel = _mainPanel;
 

@@ -82,7 +82,7 @@ public class ChamadoListScreen extends BasePanel {
         newChamadoButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                cardLayout.show(mainChamadoPanel, "createEmployeeScreen");
+                cardLayout.show(mainChamadoPanel, "createChamadoScreen");
             }
         });
 
