@@ -22,13 +22,13 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import com.suppdiff.domain.entities.Ticket;
-import com.suppdiff.domain.services.TicketService;
+import com.suppdiff.application.services.TicketService;
 
 public class EditChamadoScreen extends BasePanel {
     private JTextField titleField;
     private JTextField clientField;
     private JTextArea descriptionField;
-    private JButton sendButton;
+    private JButton saveButton;
     private JButton cancelButton;
 
     private CardLayout cardLayout;
@@ -118,7 +118,7 @@ public class EditChamadoScreen extends BasePanel {
 
 
                 if (title.isEmpty() || description.isEmpty()) {
-                    JOptionPane.showMessageDialog(CreateChamadoScreen.this, "Por favor, preencha todos os campos", "Erro", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(EditChamadoScreen.this, "Por favor, preencha todos os campos", "Erro", JOptionPane.ERROR_MESSAGE);
                 } else {
                     TicketService ticketService = new TicketService();
                     Ticket ticket = new Ticket();

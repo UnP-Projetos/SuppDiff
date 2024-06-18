@@ -21,8 +21,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import com.suppdiff.domain.entities.Client;
+import com.suppdiff.domain.entities.Person;
 import com.suppdiff.domain.entities.Ticket;
-import com.suppdiff.domain.services.TicketService;
+import com.suppdiff.application.services.TicketService;
+import com.suppdiff.application.services.UserSession;
 
 public class CreateChamadoScreen extends BasePanel {
     private JTextField titleField;
@@ -69,8 +72,6 @@ public class CreateChamadoScreen extends BasePanel {
         descriptionLabel.setFont(new Font("Arial", Font.BOLD, 16));
         inputPanel.add(descriptionLabel, gbc);
 
-        
-
          // JTextArea dentro de um JScrollPane
          gbc.gridx = 0;
          gbc.gridy = 2;
@@ -86,7 +87,6 @@ public class CreateChamadoScreen extends BasePanel {
          scrollPane.setPreferredSize(new Dimension(250, 250));
          inputPanel.add(scrollPane, gbc);
 
-        
         // Painel de botões
         JPanel buttonPanel = new JPanel();
         buttonPanel.setOpaque(false);
@@ -115,7 +115,6 @@ public class CreateChamadoScreen extends BasePanel {
                 String title = titleField.getText();
                 String description = descriptionField.getText();
 
-
                 if (title.isEmpty() || description.isEmpty()) {
                     JOptionPane.showMessageDialog(CreateChamadoScreen.this, "Por favor, preencha todos os campos", "Erro", JOptionPane.ERROR_MESSAGE);
                 } else {
@@ -123,11 +122,16 @@ public class CreateChamadoScreen extends BasePanel {
                     Ticket ticket = new Ticket();
                     ticket.setTitle(title);
                     ticket.setDescription(description);
+                    ticket.setStatus("Criado");
+                    Person person = UserSession.getInstance().getLoggedInUser();
+                    Client client = new Client();
+                    client.setId(person.getId());
+                    ticket.setClient(client);
                     ticketService.save(ticket);
 
                     // Retornar para a tela de lista de usuários
                     cardLayout.show(mainPanel, "chamadoListScreen");
-                    ((UserListScreen) mainPanel.getComponent(4)).updateTable(); // Atualiza a tabela de usuários
+                    ((ChamadoListScreen) mainPanel.getComponent(5)).updateTable(); // Atualiza a tabela de usuários
                 }
             }
         });

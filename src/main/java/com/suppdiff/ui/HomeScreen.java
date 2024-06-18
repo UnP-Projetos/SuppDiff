@@ -21,7 +21,6 @@ public class HomeScreen extends BasePanel {
         super("Home", _cardLayout, _mainPanel);
         this.mainPanel = _mainPanel;
         this.cardLayout = _cardLayout;
-        
 
         imageLabel = new JLabel();
         imageLabel.setLayout(new BorderLayout());
@@ -72,7 +71,6 @@ public class HomeScreen extends BasePanel {
         revalidate();
         repaint();
     }
-
     
     private void resizeImage() {
         int width = getWidth();

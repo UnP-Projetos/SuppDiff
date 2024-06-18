@@ -15,7 +15,7 @@ public class UserDto extends Person {
         this.setPhone(phone);
         this.setBirthDate(birthData);
         this.setPassword(password);
-        this.typeUser = typeUser;
+        this.setTypeUser(typeUser);
     }
 
     public TypeUser getTypeUser() {

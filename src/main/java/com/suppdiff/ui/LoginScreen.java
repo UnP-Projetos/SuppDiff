@@ -5,7 +5,7 @@ import java.awt.*;
 import javax.swing.border.EmptyBorder;
 
 import com.suppdiff.application.enums.TypeUser;
-import com.suppdiff.application.services.Authentication;
+import com.suppdiff.application.services.AuthenticationService;
 import com.suppdiff.application.services.PersonService;
 import com.suppdiff.application.services.UserSession;
 import com.suppdiff.domain.entities.Person;
@@ -19,7 +19,7 @@ public class LoginScreen extends JPanel {
     private JLabel backgroundLabel;
     private JTextField emailField;
     private JPasswordField passwordField;
-    private Authentication authentication = new Authentication();
+    private AuthenticationService authentication = new AuthenticationService();
     private PersonService userService = new PersonService();
 
     public LoginScreen(CardLayout _cardLayout, JPanel _mainPanel) {

@@ -31,7 +31,7 @@ public class ChamadoListScreen extends BasePanel {
         Vector<String> columnNames = new Vector<>();
         columnNames.add("#");
         columnNames.add("Assunto");
-        columnNames.add("Atendente");
+        columnNames.add("Cliente");
         columnNames.add("Editar");
         columnNames.add("Excluir");
 
@@ -102,8 +102,7 @@ public class ChamadoListScreen extends BasePanel {
         for (Ticket ticket : tickets) {
             Vector<Object> row = new Vector<>();
             row.add(ticket.getId());
-            row.add(ticket.getDescription());
-            row.add(ticket.getStatus());
+            row.add(ticket.getTitle());
             row.add(ticket.getClient().getName());
             row.add("Editar");
             row.add("Excluir");

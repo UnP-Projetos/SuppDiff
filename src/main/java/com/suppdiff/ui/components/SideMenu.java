@@ -76,7 +76,7 @@ public class SideMenu extends JPanel {
             add(usersButton, gbc);
         }
         
-        if (typeUser != TypeUser.UNKNOWN && typeUser != null) {
+        if (typeUser == TypeUser.CLIENT || typeUser == TypeUser.EMPLOYEE && typeUser != null) {
             JButton ticketsButton = new JButton("Chamados");
             ticketsButton.setForeground(Color.WHITE);
             ticketsButton.setBackground(new Color(48, 77, 110));

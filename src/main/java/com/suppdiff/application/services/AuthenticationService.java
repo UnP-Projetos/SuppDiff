@@ -2,7 +2,7 @@ package com.suppdiff.application.services;
 
 import com.suppdiff.domain.entities.Person;
 
-public class Authentication {
+public class AuthenticationService {
     private PersonService userService = new PersonService();
 
     public boolean Login(String email, String password) {
