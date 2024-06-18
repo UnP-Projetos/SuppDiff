@@ -4,8 +4,8 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
+import com.suppdiff.application.services.TicketService;
 import com.suppdiff.domain.entities.Ticket;
-import com.suppdiff.domain.services.TicketService;
 import com.suppdiff.ui.components.ChamadoButtonEditor;
 import com.suppdiff.ui.components.ButtonRenderer;
 

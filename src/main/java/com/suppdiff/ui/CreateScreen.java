@@ -3,8 +3,9 @@ package com.suppdiff.ui;
 import javax.swing.*;
 import java.awt.*;
 
-import com.suppdiff.domain.entities.Person;
-import com.suppdiff.domain.services.UserService;
+import com.suppdiff.application.DTO.UserDto;
+import com.suppdiff.application.enums.TypeUser;
+import com.suppdiff.application.services.UserService;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -91,13 +92,13 @@ public class CreateScreen extends BasePanel {
         phoneField.setFont(new Font("Arial", Font.PLAIN, 16));
         inputPanel.add(phoneField, gbc);
         
-        // Bird Date
+        // Birth Date
         gbc.gridx = 0;
         gbc.gridy = 4;
-        JLabel birdDateLabel = new JLabel("Data nascimento:");
-        birdDateLabel.setForeground(Color.WHITE);
-        birdDateLabel.setFont(new Font("Arial", Font.BOLD, 16));
-        inputPanel.add(birdDateLabel, gbc);
+        JLabel birthDateLabel = new JLabel("Data nascimento:");
+        birthDateLabel.setForeground(Color.WHITE);
+        birthDateLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        inputPanel.add(birthDateLabel, gbc);
 
         gbc.gridx = 1;
         birdDataField = new JTextField(20);
@@ -151,19 +152,19 @@ public class CreateScreen extends BasePanel {
         centerPanel.add(inputPanel, BorderLayout.CENTER);
         centerPanel.add(buttonPanel, BorderLayout.SOUTH);
 
-        // Ações dos botões
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Código para salvar o usuário
                 String name = nameField.getText();
                 String email = emailField.getText();
                 String cpf = cpfField.getText();
                 String phone = phoneField.getText();
                 String birdData = birdDataField.getText();
                 char[] password = passwordField.getPassword();
+                TypeUser typeUser = getSelectedUserType((String) typeUserField.getSelectedItem());
                 Date date = null;
 
+                System.out.println(typeUser);
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 dateFormat.setLenient(false); 
 
@@ -174,24 +175,15 @@ public class CreateScreen extends BasePanel {
                     String formattedDate = dateFormat.format(date);
                     System.out.println("Data formatada de volta para string: " + formattedDate);
 
-                } catch (Exception ex) {
-                }
+                } catch (Exception ex) {}
 
-
-                if (name.isEmpty() || email.isEmpty() || cpf.isEmpty() || phone.isEmpty() || birdData.isEmpty() || String.valueOf(password).isEmpty()) {
+                if (name.isEmpty() || email.isEmpty() || cpf.isEmpty() || phone.isEmpty() || birdData.isEmpty() || String.valueOf(password).isEmpty() || typeUser == TypeUser.UNKNOWN) {
                     JOptionPane.showMessageDialog(CreateScreen.this, "Por favor, preencha todos os campos", "Erro", JOptionPane.ERROR_MESSAGE);
                 } else {
                     UserService userService = new UserService();
-                    Person person = new Person();
-                    person.setName(name);
-                    person.setEmail(email);
-                    person.setCpf(cpf);
-                    person.setPhone(phone);
-                    person.setBirthDate((Date) date);
-                    person.setPassword(String.valueOf(password));
-                    userService.save(person);
+                    UserDto userDto = new UserDto(name, email, cpf, phone, (Date) date, String.valueOf(password), typeUser);
+                    userService.save(userDto);
 
-                    // Retornar para a tela de lista de usuários
                     cardLayout.show(mainPanel, "userListScreen");
                     ((UserListScreen) mainPanel.getComponent(2)).updateTable();
                 }
@@ -201,10 +193,22 @@ public class CreateScreen extends BasePanel {
         cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Retornar para a tela de lista de usuários sem salvar
                 cardLayout.show(mainPanel, "userListScreen");
             }
         });
+    }
+
+    public TypeUser getSelectedUserType(String selectedString) {
+        switch (selectedString) {
+            case "Admin":
+                return TypeUser.ADMIN;
+            case "Cliente":
+                return TypeUser.CLIENT;
+            case "Suporte":
+                return TypeUser.EMPLOYEE;
+            default:
+                return TypeUser.UNKNOWN;
+        }
     }
 
 }

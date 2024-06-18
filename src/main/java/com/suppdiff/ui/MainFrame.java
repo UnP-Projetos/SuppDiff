@@ -10,29 +10,28 @@ public class MainFrame extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        CardLayout cardLayout = new CardLayout();
-        JPanel mainPanel = new JPanel(cardLayout);
+        MainPanel mainPanel = new MainPanel();
+        setContentPane(mainPanel);
+        
+        CardLayout cardLayout = mainPanel.getCardLayout();
+        JPanel contentPanel = mainPanel.getContentPanel();
+
+        // Instanciando as telas
+        HomeScreen homeScreen = new HomeScreen(cardLayout, contentPanel);
+        LoginScreen loginScreen = new LoginScreen(cardLayout, contentPanel);
+        UserListScreen userListScreen = new UserListScreen(cardLayout, contentPanel);
+        CreateScreen createScreen = new CreateScreen(cardLayout, contentPanel);
+        // UpdateScreen updateScreen = new UpdateScreen(cardLayout, mainPanel);
+        ChamadoListScreen chamadoListScreen = new ChamadoListScreen(cardLayout, contentPanel);
 
         // Adicionando as telas ao CardLayout
-        HomeScreen homeScreen = new HomeScreen(cardLayout, mainPanel);
-        LoginScreen loginScreen = new LoginScreen(cardLayout, mainPanel);
-        UserListScreen userListScreen = new UserListScreen(cardLayout, mainPanel);
-        CreateScreen userRegistrationScreen = new CreateScreen(cardLayout, mainPanel);
-        CreateChamadoScreen createChamadoScreen = new CreateChamadoScreen(cardLayout, mainPanel);
-        // UpdateScreen updateScreen = new UpdateScreen(cardLayout, mainPanel);
-        ChamadoListScreen chamadoListScreen = new ChamadoListScreen(cardLayout, mainPanel);
+        contentPanel.add(loginScreen, "loginScreen");
+        contentPanel.add(homeScreen, "homeScreen");
+        contentPanel.add(userListScreen, "userListScreen");
+        contentPanel.add(createScreen, "createScreen");
+        contentPanel.add(chamadoListScreen, "chamadoListScreen");
 
-        mainPanel.add(homeScreen, "homeScreen");
-        mainPanel.add(loginScreen, "loginScreen");
-        mainPanel.add(userListScreen, "userListScreen");
-        mainPanel.add(userRegistrationScreen, "createScreen");
-        mainPanel.add(chamadoListScreen, "chamadoListScreen");
-        mainPanel.add(createChamadoScreen, "createChamadoScreen");
-
-        add(mainPanel);
-
-        // Exibindo a tela de login inicialmente
-        cardLayout.show(mainPanel, "loginScreen");
+        cardLayout.show(contentPanel, "loginScreen");
     }
 
     public static void main(String[] args) {

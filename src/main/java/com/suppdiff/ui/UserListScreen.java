@@ -4,8 +4,8 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
+import com.suppdiff.application.services.PersonService;
 import com.suppdiff.domain.entities.Person;
-import com.suppdiff.domain.services.UserService;
 import com.suppdiff.ui.components.ButtonEditor;
 import com.suppdiff.ui.components.ButtonRenderer;
 
@@ -20,13 +20,13 @@ public class UserListScreen extends BasePanel {
     private JButton newUserButton;
     private JPanel mainPanel;
     private CardLayout cardLayout;
-    private UserService userService;
+    private PersonService userService;
 
     public UserListScreen(CardLayout _cardLayout, JPanel _mainPanel) {
         super("Lista de Usuários", _cardLayout, _mainPanel);
         this.cardLayout = _cardLayout;
         this.mainPanel = _mainPanel;
-        this.userService = new UserService();
+        this.userService = new PersonService();
 
         Vector<String> columnNames = new Vector<>();
         columnNames.add("#");
@@ -114,7 +114,6 @@ public class UserListScreen extends BasePanel {
         }
     }
 
-    // Método chamado ao clicar no botão "Editar"
     public void handleEdit() {
         int selectedRow = userTable.getSelectedRow();
         if (selectedRow != -1) {
@@ -128,7 +127,6 @@ public class UserListScreen extends BasePanel {
         }
     }
 
-    // Método chamado ao clicar no botão "Excluir"
     public void handleDelete() {
         int selectedRow = userTable.getSelectedRow();
         if (selectedRow != -1) {
@@ -138,7 +136,6 @@ public class UserListScreen extends BasePanel {
             if (response == JOptionPane.YES_OPTION) {
                 try {
                     userService.delete((int) id);
-                    // updateTable();
                 } catch (Exception ex) {
                     ex.printStackTrace();
                     JOptionPane.showMessageDialog(null, "Erro ao excluir usuário.", "Erro", JOptionPane.ERROR_MESSAGE);

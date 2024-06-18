@@ -7,12 +7,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.suppdiff.application.enums.TypeUser;
 import com.suppdiff.domain.entities.Client;
 import com.suppdiff.domain.entities.Person;
 import com.suppdiff.infrastructure.config.DatabaseConfig;
 
-public class UserRepositoryImpl {
-
+public class PersonRepositoryImpl {
     public void save(Person person) {
         String sql = "INSERT INTO Person (name, email, cpf, phone, password, birth_date) VALUES (?, ?, ?, ?, ?, ?)";
         try (Connection connection = DatabaseConfig.getConnection();
@@ -74,6 +74,36 @@ public class UserRepositoryImpl {
         }
         return null;
     }
+
+    public TypeUser getUserTypeById(int id) {
+        String sql = "SELECT " +
+                     "CASE " +
+                     "WHEN EXISTS (SELECT 1 FROM Administrator WHERE id = ?) THEN 'ADMIN' " +
+                     "WHEN EXISTS (SELECT 1 FROM Client WHERE id = ?) THEN 'CLIENT' " +
+                     "WHEN EXISTS (SELECT 1 FROM Employee WHERE id = ?) THEN 'EMPLOYEE' " +
+                     "ELSE 'UNKNOWN' " +
+                     "END AS userType";
+
+        try (Connection connection = DatabaseConfig.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setInt(1, id);
+            statement.setInt(2, id);
+            statement.setInt(3, id);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                String userTypeStr = resultSet.getString("userType");
+                return TypeUser.valueOf(userTypeStr);
+            }
+        } catch (SQLException ex) {
+            return TypeUser.UNKNOWN;
+        }
+
+        return TypeUser.UNKNOWN;
+    }
+
 
     public List<Person> getAll() {
         List<Person> people = new ArrayList<>();

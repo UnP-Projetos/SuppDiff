@@ -1,12 +1,13 @@
-package com.suppdiff.domain.services;
+package com.suppdiff.application.services;
 
 import java.util.List;
 
+import com.suppdiff.application.enums.TypeUser;
 import com.suppdiff.domain.entities.Person;
-import com.suppdiff.repositories.UserRepositoryImpl;
+import com.suppdiff.repositories.PersonRepositoryImpl;
 
-public class UserService {
-    private UserRepositoryImpl userRepository = new UserRepositoryImpl();
+public class PersonService {
+    private PersonRepositoryImpl userRepository = new PersonRepositoryImpl();
 
     public void save(Person person) {
         userRepository.save(person);
@@ -30,5 +31,9 @@ public class UserService {
 
     public Person getByEmail(String email) {
         return userRepository.getByEmail(email);
+    }
+
+    public TypeUser getUserTypeById(int id) {
+        return userRepository.getUserTypeById(id);
     }
 }
